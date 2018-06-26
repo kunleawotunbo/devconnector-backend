@@ -31,7 +31,7 @@ router.post('/register', (req, res) => {
 
   // check validation
   if (!isValid) {
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
 
   User.findOne({
@@ -73,14 +73,12 @@ router.post('/register', (req, res) => {
 // @desc    Login User / Returning JWT Token route
 // @access  Public
 router.post('/login', (req, res) => {
-  const {
-    errors,
-    isValid
-  } = validateLoginInput(req.body);
+  const { errors, isValid } = validateLoginInput(req.body);
 
   // check validation
   if (!isValid) {
-    res.status(400).json(errors);
+    console.log("i am here");
+    return res.status(400).json(errors);
   }
 
   const email = req.body.email;
@@ -92,6 +90,7 @@ router.post('/login', (req, res) => {
     })
     .then(user => {
       if (!user) {
+        console.log("user not found oooo...");
         errors.email = 'User not found';
         return res.status(404).json(errors);
       }
